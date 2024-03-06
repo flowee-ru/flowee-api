@@ -50,7 +50,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     def get_live(self, obj):
         try:
-            response = requests.get(f'{settings.MEDIAMTX_API_URL}/v3/paths/get/live/{obj.get_username()}')
+            response = requests.get(f'{settings.MEDIAMTX_API_URL}/v3/paths/get/{obj.get_username()}')
         except requests.RequestException:
             raise APIException('Failed to get data from streaming server')
         
@@ -59,7 +59,7 @@ class UserSerializer(serializers.ModelSerializer):
             return {
                 'ready_time': data['readyTime'],
                 'viewers': len(data['readers']),
-                'url': f'{settings.MEDIAMTX_HLS_URL}/live/{obj.get_username()}/index.m3u8',
+                'url': f'{settings.MEDIAMTX_HLS_URL}/{obj.get_username()}/index.m3u8',
             }
         else:
             return None
