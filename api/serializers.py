@@ -1,8 +1,9 @@
 import requests
-from rest_framework import serializers
 from django.conf import settings
+from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.exceptions import APIException
 
 from . import models
 
@@ -48,7 +49,10 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['username', 'display_name', 'bio', 'live_name', 'live']
     
     def get_live(self, obj):
-        response = requests.get(f'{settings.MEDIAMTX_API_URL}/v3/paths/get/live/{obj.get_username()}')
+        try:
+            response = requests.get(f'{settings.MEDIAMTX_API_URL}/v3/paths/get/live/{obj.get_username()}')
+        except requests.RequestException:
+            raise APIException('Failed to get data from streaming server')
         
         if response.status_code == 200:
             data = response.json()
