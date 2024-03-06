@@ -11,7 +11,7 @@ class User(AbstractUser):
         unique=True,
         validators=[RegexValidator(r'^[a-zA-Z0-9_]*$')],
         error_messages={
-            'unique': 'A user with that username already exists.'
+            'unique': 'Username is already taken.',
         }
     )
     password = models.CharField(max_length=100, validators=[MinLengthValidator(6)])
