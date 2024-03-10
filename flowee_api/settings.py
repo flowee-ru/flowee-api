@@ -31,14 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'rest_framework',
+    'chat',
+    'api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'api',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +142,14 @@ HCAPTCHA_SECRET_KEY = '0x0000000000000000000000000000000000000000'
 
 MEDIAMTX_API_URL = 'http://127.0.0.1:9997'
 MEDIAMTX_HLS_URL = 'http://127.0.0.1:8888'
+
+# Channels
+ASGI_APPLICATION = 'flowee_api.asgi.application'
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}

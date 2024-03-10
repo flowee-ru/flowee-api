@@ -2,3 +2,5 @@ Django
 djangorestframework
 requests
 djangorestframework-simplejwt
+channels[daphne]
+channels_redis
