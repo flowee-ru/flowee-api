@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'daphne',
     'rest_framework',
+    'corsheaders',
     'chat',
     'api',
     'django.contrib.admin',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -153,3 +155,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:4200',
+]
