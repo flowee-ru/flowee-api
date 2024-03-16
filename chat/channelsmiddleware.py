@@ -14,13 +14,12 @@ from django.conf import settings
 @database_sync_to_async
 def get_user(validated_token):
     try:
-        user = get_user_model().objects.get(id=validated_token["user_id"])
-        print(f"{user}")
+        user = get_user_model().objects.get(id=validated_token['user_id'])
+        print(f'{user}')
         return user
    
     except User.DoesNotExist:
         return AnonymousUser()
-
 
 
 class JwtAuthMiddleware(BaseMiddleware):
@@ -30,7 +29,7 @@ class JwtAuthMiddleware(BaseMiddleware):
     async def __call__(self, scope, receive, send):
         close_old_connections()
 
-        token = parse_qs(scope["query_string"].decode("utf8"))["token"][0]
+        token = parse_qs(scope['query_string'].decode('utf8'))['token'][0]
 
         try:
             UntypedToken(token)
@@ -38,9 +37,9 @@ class JwtAuthMiddleware(BaseMiddleware):
             print(e)
             return None
         else:
-            decoded_data = jwt_decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+            decoded_data = jwt_decode(token, settings.SECRET_KEY, algorithms=['HS256'])
             print(decoded_data)
-            scope["user"] = await get_user(validated_token=decoded_data)
+            scope['user'] = await get_user(validated_token=decoded_data)
         return await super().__call__(scope, receive, send)
 
 
